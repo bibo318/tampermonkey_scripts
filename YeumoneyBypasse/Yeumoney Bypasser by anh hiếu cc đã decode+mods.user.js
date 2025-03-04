@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Yeumoney Bypasser by anh hiếu cc đã decode+mods
 // @namespace    http://tampermonkey.net/
-// @version      6.4
+// @version      7.0
 // @description  The Ultimate Yeumoney Bypass decode
 // @author       DemonGod
 // @match        https://yeumoney.com/*
