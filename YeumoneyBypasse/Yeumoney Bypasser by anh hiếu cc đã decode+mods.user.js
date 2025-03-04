@@ -338,7 +338,7 @@
             const _0x463016 = window.location.href;
             console.log("[Debug] Google Sheets URL:", _0x463016);
 
-            const fileId = _0x463016.match(/\/d\/([a-zA-Z0-9-_]+)/)?.[1];
+            const fileId = _0x463016.match(/\/d\/([a-zA-Z0-9-_]+)/) ? .[1];
             console.log("[Debug] Sheet ID:", fileId);
 
             if (!fileId) {
@@ -355,7 +355,7 @@
                 return null;
             }
             const _0x248dfa = await _0x1e10b8.json();
-            const _0x404d78 = _0x248dfa.sheets?.[0]?.data?.[0]?.rowData || [];
+            const _0x404d78 = _0x248dfa.sheets ? .[0] ? .data ? .[0] ? .rowData || [];
             for (let _0x3a29d2 of _0x404d78) {
                 for (let _0x117c29 of _0x3a29d2.values || []) {
                     const _0x5b983b = _0x117c29.hyperlink;
@@ -432,6 +432,39 @@
         document.head.appendChild(_0x53c21d);
         const _0x7180a7 = document.createElement("style");
         _0x7180a7.textContent = "\n        .bypass-header {\n            padding: 14px 18px;\n            background: linear-gradient(135deg, rgba(30, 40, 50, 0.95), rgba(20, 30, 40, 0.95));\n            border-bottom: 1px solid rgba(255, 255, 255, 0.05);\n            display: flex;\n            align-items: center;\n            justify-content: space-between;\n        }\n        .bypass-title {\n            margin: 0;\n            font-size: 16px;\n            font-weight: 700;\n            background: linear-gradient(90deg, #00ffcc, #00ccff, #ff00ff);\n            -webkit-background-clip: text;\n            background-clip: text;\n            color: transparent;\n            text-shadow: 0 0 8px rgba(0, 204, 255, 0.2);\n        }\n        .bypass-content {\n            padding: 18px;\n            opacity: 1;\n            transition: opacity 0.3s ease;\n        }\n        input[type=\"text\"] {\n            width: 100%;\n            padding: 10px 14px;\n            background: rgba(255, 255, 255, 0.08);\n            border: 1px solid rgba(255, 255, 255, 0.1);\n            border-radius: 12px;\n            color: #fff;\n            font-size: 14px;\n            transition: all 0.4s ease;\n            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2), 0 0 12px rgba(0, 204, 255, 0.1);\n        }\n        input[type=\"text\"]:focus {\n            border-color: #00ccff;\n            box-shadow: 0 0 18px rgba(0, 204, 255, 0.5), inset 0 2px 6px rgba(0, 0, 0, 0.2);\n            outline: none;\n            transform: scale(1.02);\n        }\n        .checkbox-group {\n            display: flex;\n            gap: 20px;\n            margin: 16px 0;\n        }\n        .checkbox-label {\n            display: flex;\n            align-items: center;\n            gap: 8px;\n            font-size: 14px;\n            color: #e0e0e0;\n            cursor: pointer;\n            transition: color 0.3s ease, transform 0.3s ease;\n        }\n        .checkbox-label:hover {\n            color: #fff;\n            transform: translateY(-2px);\n        }\n        input[type=\"checkbox\"] {\n            appearance: none;\n            width: 16px;\n            height: 16px;\n            background: rgba(255, 255, 255, 0.08);\n            border: 1px solid rgba(255, 255, 255, 0.2);\n            border-radius: 6px;\n            cursor: pointer;\n            transition: all 0.3s ease;\n            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);\n        }\n        input[type=\"checkbox\"]:checked {\n            background: linear-gradient(45deg, #00ccff, #ff00ff);\n            border-color: #00ccff;\n            position: relative;\n            box-shadow: 0 0 10px rgba(0, 204, 255, 0.5);\n        }\n        input[type=\"checkbox\"]:checked::after {\n            content: '✓';\n            position: absolute;\n            left: 50%;\n            top: 50%;\n            transform: translate(-50%, -50%);\n            color: #fff;\n            font-size: 10px;\n            text-shadow: 0 0 5px rgba(0, 204, 255, 0.7);\n        }\n        .button-group {\n            display: grid;\n            grid-template-columns: 1fr 1fr;\n            gap: 10px;\n            margin-top: 20px;\n        }\n        button {\n            padding: 10px;\n            border: none;\n            border-radius: 12px;\n            font-size: 14px;\n            font-weight: 700;\n            cursor: pointer;\n            transition: all 0.4s ease;\n            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 204, 255, 0.2);\n        }\n        button:hover {\n            transform: translateY(-3px) scale(1.02);\n            box-shadow: 0 7px 22px rgba(0, 0, 0, 0.4), 0 0 18px rgba(0, 204, 255, 0.4);\n        }\n        .btn-bypass {\n            background: linear-gradient(45deg, #00ccff, #00ffcc);\n            color: #fff;\n        }\n        .btn-change {\n            background: linear-gradient(45deg, #ff3366, #ff6699);\n            color: #fff;\n        }\n        .url-info {\n            font-size: 12px;\n            color: #00ffcc;\n            word-break: break-all;\n            margin: 14px 0;\n            opacity: 0.9;\n            line-height: 1.6;\n            text-shadow: 0 0 5px rgba(0, 255, 204, 0.3);\n        }\n        .author-text {\n            font-size: 12px;\n            color: #888;\n            text-align: center;\n            padding: 10px;\n            border-top: 1px solid rgba(255, 255, 255, 0.08);\n            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.15));\n            box-shadow: inset 0 -2px 10px rgba(0, 204, 255, 0.05);\n            animation: glow 3s infinite alternate;\n        }\n        @keyframes glow {\n            from { box-shadow: inset 0 -2px 10px rgba(0, 204, 255, 0.05); }\n            to { box-shadow: inset 0 -2px 10px rgba(0, 204, 255, 0.2); }\n        }\n        #bypass-panel:hover::after {\n            content: '';\n            position: absolute;\n            top: 0;\n            left: 0;\n            width: 100%;\n            height: 100%;\n            background: radial-gradient(circle, rgba(0, 204, 255, 0.12) 0%, transparent 70%);\n            pointer-events: none;\n            animation: particleSpread 1.8s infinite ease-out;\n        }\n        @keyframes particleSpread {\n            0% { transform: scale(0); opacity: 0.8; }\n            100% { transform: scale(1.8); opacity: 0; }\n        }\n    ";
+        _0x7180a7.textContent += `
+    .slider-container {
+        margin: 16px 0;
+    }
+    .slider-label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+        color: #e0e0e0;
+        margin-bottom: 8px;
+    }
+    .delay-slider {
+        width: 100%;
+        -webkit-appearance: none;
+        height: 8px;
+        background: linear-gradient(90deg, #00ccff, #ff00ff);
+        border-radius: 10px;
+        outline: none;
+        transition: opacity 0.3s ease;
+        box-shadow: 0 0 10px rgba(0, 204, 255, 0.3);
+    }
+    .delay-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        border-radius: 50%;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0, 204, 255, 0.7), 0 0 5px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease;
+    }
+`;
         document.head.appendChild(_0x7180a7);
         const _0x22860f = document.createElement("div");
         _0x22860f.className = "bypass-header";
@@ -485,7 +518,7 @@
                 _0x375635.value = "Chờ Xíu Nhe...";
                 const _0x29ec1e = await _0x2680d4(_0x5239ab);
                 if (_0x29ec1e) {
-                    let _0x332f6a = 2;
+                    let _0x332f6a = parseInt(_0x1a735e.value); // Sử dụng giá trị từ slider
                     const _0x22594f = setInterval(() => {
                         _0x375635.value = "Chờ Đợi Là Hạnh Phúc Sau: " + _0x332f6a + "s Thôi!";
                         _0x332f6a--;
@@ -521,6 +554,29 @@
         };
         _0x352b25.appendChild(_0x5ec458);
         _0xa39152.appendChild(_0x352b25);
+        const _0x48c34e = document.createElement("div");
+        _0x48c34e.className = "slider-container";
+        const _0x59403d = document.createElement("label");
+        _0x59403d.className = "slider-label";
+        _0x59403d.textContent = "Thời Gian Bypass: ";
+        const _0x81b4c0 = document.createElement("span");
+        _0x81b4c0.id = "delay-value";
+        _0x81b4c0.textContent = '2s';
+        _0x59403d.appendChild(_0x81b4c0);
+
+        const _0x1a735e = document.createElement("input");
+        _0x1a735e.type = "range";
+        _0x1a735e.min = '5';
+        _0x1a735e.max = "125";
+        _0x1a735e.value = '5';
+        _0x1a735e.className = "delay-slider";
+        _0x1a735e.oninput = function() {
+            _0x81b4c0.textContent = this.value + 's';
+        };
+
+        _0x48c34e.appendChild(_0x59403d);
+        _0x48c34e.appendChild(_0x1a735e);
+        _0xa39152.appendChild(_0x48c34e);
         _0x2512a4.appendChild(_0xa39152);
         const _0x9b79e9 = document.createElement("div");
         _0x9b79e9.className = "author-text";
