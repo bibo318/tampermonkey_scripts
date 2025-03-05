@@ -21,6 +21,108 @@
         return false;
     };
 
+    // Thêm các biến mới cho Fake IP/Browser
+    const _0x3fbe0c = [{
+        'ip': "103.1.2.3",
+        'port': 8080
+    }, {
+        'ip': "45.67.89.12",
+        'port': 3128
+    }, {
+        'ip': "192.168.1.100",
+        'port': 80
+    }, {
+        'ip': "78.90.12.34",
+        'port': 443
+    }];
+
+    const _0x5ce3fe = [
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/605.1.15",
+        "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0",
+        "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Mobile/15E148 Safari/604.1"
+    ];
+
+    let _0x5f054e = GM_getValue("isFakeIPEnabled", false);
+    let _0x2aebed = GM_getValue("isFakeBrowserEnabled", false);
+    let _0xec9955 = GM_getValue("currentProxy", null);
+    let _0x30ecf0 = GM_getValue("currentUserAgent", navigator.userAgent);
+
+    // Thêm vào sau phần khai báo biến
+    const _0x30c83e = {
+        method: 'GET',
+        headers: {
+            'User-Agent': _0x30ecf0
+        }
+    };
+
+    // Thêm xử lý proxy
+    if (_0x5f054e && _0xec9955) {
+        _0x30c83e.proxy = {
+            'host': _0xec9955.ip,
+            'port': _0xec9955.port
+        };
+    }
+
+    // Thêm các hàm mới
+    function _0x36be05() {
+        const _0x377871 = Math.floor(Math.random() * _0x3fbe0c.length);
+        return _0x3fbe0c[_0x377871];
+    }
+
+    function _0x2327e4() {
+        const _0x1efe99 = Math.floor(Math.random() * _0x5ce3fe.length);
+        return _0x5ce3fe[_0x1efe99];
+    }
+
+    function _0x5ec37a(_0x1f70e6) {
+        console.log("Đã bật Fake IP: " + _0x1f70e6.ip + ':' + _0x1f70e6.port);
+        _0xec9955 = _0x1f70e6;
+        GM_setValue("currentProxy", _0x1f70e6);
+        GM_setValue("isFakeIPEnabled", true);
+    }
+
+    function _0x5e6c9a() {
+        console.log("Đã tắt Fake IP");
+        _0xec9955 = null;
+        GM_setValue("currentProxy", null);
+        GM_setValue("isFakeIPEnabled", false);
+    }
+
+    function _0xd69aa7(_0x4ba645) {
+        console.log("Đã bật Fake Browser: " + _0x4ba645);
+        Object.defineProperty(navigator, "userAgent", {
+            'value': _0x4ba645,
+            'writable': false,
+            'configurable': true
+        });
+        Object.defineProperty(navigator, "platform", {
+            'value': _0x4ba645.includes("Windows") ? "Win32" : _0x4ba645.includes("Mac") ? "MacIntel" : "Linux x86_64",
+            'writable': false,
+            'configurable': true
+        });
+        _0x30ecf0 = _0x4ba645;
+        GM_setValue("currentUserAgent", _0x4ba645);
+        GM_setValue("isFakeBrowserEnabled", true);
+    }
+
+    function _0x50de81() {
+        console.log("Đã tắt Fake Browser");
+        Object.defineProperty(navigator, "userAgent", {
+            'value': navigator.userAgent,
+            'writable': false,
+            'configurable': true
+        });
+        Object.defineProperty(navigator, "platform", {
+            'value': navigator.platform,
+            'writable': false,
+            'configurable': true
+        });
+        _0x30ecf0 = navigator.userAgent;
+        GM_setValue("currentUserAgent", navigator.userAgent);
+        GM_setValue("isFakeBrowserEnabled", false);
+    }
+
     async function _0x143144() {
         let _0x19b42f = localStorage.getItem("deviceID");
         if (!_0x19b42f) {
@@ -338,9 +440,12 @@
             const _0x463016 = window.location.href;
             console.log("[Debug] Google Sheets URL:", _0x463016);
 
-            const fileId = _0x463016.match(/\/d\/([a-zA-Z0-9-_]+)/) ? .[1];
+            let fileId = null;
+            const match = _0x463016.match(/\/d\/([a-zA-Z0-9-_]+)/);
+            if (match && match[1]) {
+                fileId = match[1];
+            }
             console.log("[Debug] Sheet ID:", fileId);
-
             if (!fileId) {
                 console.error("[Debug] Không tìm thấy Sheet ID trong URL:", _0x463016);
                 return null;
@@ -348,14 +453,19 @@
 
             const _0x5ddf01 = "https://sheets.googleapis.com/v4/spreadsheets/" + fileId + "?fields=sheets(data(rowData(values(userEnteredValue,hyperlink))))&key=" + "AIzaSyDTEFhPROUdMvEg7pTPF13rTRCfgXbJLJo";
             console.log("[Debug] API URL:", _0x5ddf01);
-
             const _0x1e10b8 = await fetch(_0x5ddf01);
             if (!_0x1e10b8.ok) {
                 console.error("Lỗi khi gọi API:", _0x1e10b8.statusText);
                 return null;
             }
             const _0x248dfa = await _0x1e10b8.json();
-            const _0x404d78 = _0x248dfa.sheets ? .[0] ? .data ? .[0] ? .rowData || [];
+            const _0x404d78 = _0x248dfa &&
+                _0x248dfa.sheets &&
+                _0x248dfa.sheets[0] &&
+                _0x248dfa.sheets[0].data &&
+                _0x248dfa.sheets[0].data[0] &&
+                _0x248dfa.sheets[0].data[0].rowData || [];
+
             for (let _0x3a29d2 of _0x404d78) {
                 for (let _0x117c29 of _0x3a29d2.values || []) {
                     const _0x5b983b = _0x117c29.hyperlink;
@@ -465,6 +575,32 @@
         transition: transform 0.3s ease;
     }
 `;
+        _0x7180a7.textContent += `
+    .extra-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    .btn-fakeip {
+        background: linear-gradient(45deg, #33cc33, #66ff66);
+        color: #fff;
+        position: relative;
+    }
+    .btn-fakeip.active {
+        background: linear-gradient(45deg, #ff3333, #ff6666);
+        box-shadow: 0 0 15px rgba(255, 51, 51, 0.6);
+    }
+    .btn-fakebrowser {
+        background: linear-gradient(45deg, #9933ff, #cc66ff);
+        color: #fff;
+        position: relative;
+    }
+    .btn-fakebrowser.active {
+        background: linear-gradient(45deg, #ff3333, #ff6666);
+        box-shadow: 0 0 15px rgba(255, 51, 51, 0.6);
+    }
+`;
         document.head.appendChild(_0x7180a7);
         const _0x22860f = document.createElement("div");
         _0x22860f.className = "bypass-header";
@@ -563,7 +699,6 @@
         _0x81b4c0.id = "delay-value";
         _0x81b4c0.textContent = '2s';
         _0x59403d.appendChild(_0x81b4c0);
-
         const _0x1a735e = document.createElement("input");
         _0x1a735e.type = "range";
         _0x1a735e.min = '5';
@@ -577,6 +712,59 @@
         _0x48c34e.appendChild(_0x59403d);
         _0x48c34e.appendChild(_0x1a735e);
         _0xa39152.appendChild(_0x48c34e);
+
+        // Thêm vào phần tạo giao diện, sau phần checkbox group
+        const _0x3711f3 = document.createElement("div");
+        _0x3711f3.className = "extra-buttons";
+
+        const _0x23b604 = document.createElement("button");
+        _0x23b604.textContent = "Fake IP";
+        _0x23b604.className = "btn-fakeip";
+        if (_0x5f054e) {
+            _0x23b604.classList.add("active");
+        }
+        _0x23b604.onclick = () => {
+            if (!_0x5f054e) {
+                const proxy = _0x36be05();
+                _0x5ec37a(proxy);
+                _0x5f054e = true;
+                _0x23b604.classList.add("active");
+                _0x375635.value = "Fake IP ON: " + proxy.ip + ':' + proxy.port;
+            } else {
+                _0x5e6c9a();
+                _0x5f054e = false;
+                _0x23b604.classList.remove("active");
+                _0x375635.value = "Fake IP OFF";
+            }
+        };
+
+        const _0x345b80 = document.createElement("button");
+        _0x345b80.textContent = "Fake Browser";
+        _0x345b80.className = "btn-fakebrowser";
+        if (_0x2aebed) {
+            _0x345b80.classList.add("active");
+        }
+        _0x345b80.onclick = () => {
+            if (!_0x2aebed) {
+                const userAgent = _0x2327e4();
+                _0xd69aa7(userAgent);
+                _0x2aebed = true;
+                _0x345b80.classList.add("active");
+                _0x375635.value = "Fake Browser ON: " + userAgent.substring(0, 20) + "...";
+            } else {
+                _0x50de81();
+                _0x2aebed = false;
+                _0x345b80.classList.remove("active");
+                _0x375635.value = "Fake Browser OFF";
+            }
+        };
+
+        _0x3711f3.appendChild(_0x23b604);
+        _0x3711f3.appendChild(_0x345b80);
+
+        // Thêm vào sau phần button group
+        _0xa39152.appendChild(_0x3711f3);
+
         _0x2512a4.appendChild(_0xa39152);
         const _0x9b79e9 = document.createElement("div");
         _0x9b79e9.className = "author-text";
@@ -610,7 +798,6 @@
             }
         }
     };
-
     // Thêm vào phần fetch request
     fetch("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js", {
         mode: 'no-cors',
